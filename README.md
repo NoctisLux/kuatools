@@ -79,6 +79,7 @@ Tool tracking and recording the stats of a live channel
 * __init__(self, streamer, globalLog, terminal)
 * connect(self, retryDelay=10) tries to make a Snapshot of the livestream to return it. Returns None if failed after 10 attempts
 * track(self, interval=300) fires the tracking process of the livestream to get and log a Snapshot of it every <interval> seconds
+
 ============================================
 
 # Kuatracker
