@@ -12,7 +12,7 @@ todo:
 ## General
 
 ### Introduction
-KUATools, or Knowledge Usage and Acquisition Tools, is a Python 3 module implementing simple classes used for the acquisition and subsequent analysis of relevant data from Twitch livestreams. It is intended as the base of programs assisting Twitch streamers in the appreciation of their performances, specifically between the beginning and the and of their stream.
+KUATools, or Knowledge Usage and Acquisition Tools, is a Python 3 module implementing simple classes used for the acquisition and subsequent analysis of relevant data from Twitch livestreams. It is intended as the base of programs assisting Twitch streamers in the appreciation of their performances, specifically between the beginning and the end of their stream.
 ### Dependencies
 This module uses the following modules:
 * requests (package python3-requests on Debian, or pip install requests)
