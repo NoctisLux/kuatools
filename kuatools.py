@@ -169,7 +169,7 @@ class Tracker:
             s = self.liveStream.snap()
         return s
     def track(self, interval=300):
-        """Fires the tracking process of the livestream to get and logs a Snapshot of it every <interval> seconds."""
+        """Fires the tracking process of the livestream to get and log a Snapshot of it every <interval> seconds."""
         self.channelInfo.add(StreamStats(self.streamer))
         self.terminal.write("\t--start of {}\'s tracking--".format(self.streamer))
         s = self.connect()
