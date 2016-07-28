@@ -74,9 +74,9 @@ class Screen:
         print(message + "\n")
     def __init__(self, programName):
         self.program = programName
-        self.write("\t\t==={}===".format(self.programName))
+        self.write("\t\t==={}===".format(self.program))
     def end(self):
-        self.write("\t\t===End of {}===".format(self.programName))
+        self.write("\t\t===End of {}===".format(self.program))
     def writeWarning(self, warning):
         """Writes a more visible message in the terminal for warnings"""
         self.write("\tWarning: {}".format(warning))
@@ -150,7 +150,7 @@ class TwitchStream:
         """Returns a Snapshot of the current informations of the livestream"""
         apiAnswerStream = requests.get("https://api.twitch.tv/kraken/streams/" + self.streamer).json()['stream']
         apiAnswerChannel = requests.get("https://api.twitch.tv/kraken/channels/" + self.streamer).json()
-        if apiAnswer != None:
+        if apiAnswerStream != None:
             return Snapshot(apiAnswerStream["viewers"], apiAnswerStream["game"], apiAnswerChannel["followers"])
         return None
 class Tracker:
