@@ -144,7 +144,8 @@ class StatsDump:
 
 class TwitchStream:
     """Create the statstics of a StreamStats"""
-    def __init__(self, streamer):
+    def __init__(self, streamer, globalLog):
+        self.globalLog = globalLog
         self.streamer = streamer
     def snap(self):
         """Returns a Snapshot of the current informations of the livestream"""
@@ -157,7 +158,7 @@ class Tracker:
     """Tool tracking and recording the stats of a live channel"""
     def __init__(self, streamer, globalLog, terminal):
         self.streamer = streamer
-        self.liveStream = TwitchStream(streamer)
+        self.liveStream = TwitchStream(streamer, globalLog)
         self.channelDump = StatsDump(streamer)
         self.globalLog = globalLog
         self.terminal = terminal
@@ -167,19 +168,24 @@ class Tracker:
             self.channelInfo = ChannelStats(streamer)
     def connect(self, retryDelay=10):
         """Tries to make a Snapshot of the livestream to return it. Returns None if failed after 10 attempts."""
-        s = self.liveStream.snap()
+        s = None
         attempt = 0
-        while (s == None) and (attempt < 10):
+        while (s == None) and (attempt < 11):
             attempt+= 1
-            self.terminal.write("(attempt " + str(attempt) + " of 10) " + " The tracked stream is offline. Awaiting sign of activity...")
-            self.terminal.write("(attempt {0} of 10) The tracked stream is offline. Awaiting sign of activity...".format(str(attempt)))
-            sleep(retryDelay)
-            s = self.liveStream.snap()
+            try:
+                s = self.liveStream.snap()
+                if (s == None):
+                    self.terminal.write("(attempt {0} of 10) The tracked stream is offline.".format(str(attempt)))
+            except requests.exceptions.ConnectionError:
+                self.terminal.write("(attempt {0} of 10) The service is unavailable or you have no connection.".format(str(attempt)))
+            if (s == None):
+                sleep(retryDelay)
         return s
     def track(self, interval=300):
         """Fires the tracking process of the livestream to get and log a Snapshot of it every <interval> seconds."""
         self.channelInfo.add(StreamStats(self.streamer))
         self.terminal.write("\t--start of {}\'s tracking--".format(self.streamer))
+        self.terminal.write("Establishing connection...")
         s = self.connect()
         while s != None:
             self.channelInfo.getLast().add(s)
@@ -205,4 +211,5 @@ class Tracker:
                 self.globalLog.writeError(str(e))
                 trySave = self.terminal.ask("The information on {} \'s channel couldn't be saved. Try again? (y/N): ".format(self.streamer))
             else:
+                success == True
                 self.terminal.write("Information on {}\'s channel successfully saved".format(self.streamer))
