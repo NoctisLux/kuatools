@@ -73,7 +73,10 @@ class Screen:
         """Writes the message in the terminal followed by and endline"""
         print(message + "\n")
     def __init__(self, programName):
-        self.write("\t\t==={}===".format(programName))
+        self.program = programName
+        self.write("\t\t==={}===".format(self.programName))
+    def end(self):
+        self.write("\t\t===End of {}===".format(self.programName))
     def writeWarning(self, warning):
         """Writes a more visible message in the terminal for warnings"""
         self.write("\tWarning: {}".format(warning))
