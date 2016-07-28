@@ -53,7 +53,7 @@ Contains the statistics of a livestream
 ####Class Screen
 Wrapper for interaction with the terminal
 * write(self, message) writes the message in the terminal followed by an endline
-* __init__(self, programName)
+* \_\_init\_\_(self, programName)
 * end(self) writes a message indicating the program is closing
 * writeWarning(self, warning) writes a more visible message in the terminal for warnings
 * writeError(self, error) writes an error message in a more visible formatting
