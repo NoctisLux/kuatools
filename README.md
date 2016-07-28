@@ -31,7 +31,7 @@ This is work in progress.
 ### Content
 ####Class Snapshot
 Represents the information on a livestream at a given time
-* __init__(self, viewers, game, followers, time=datetime.now())
+* \_\_init\_\_(self, viewers, game, followers, time=datetime.now())
 * getTime(self) returns time as a datetime
 * getViewers(self) returns the viewer count at that time as an integer
 * getGame(self) returns the game played at that time as a string
@@ -40,12 +40,12 @@ Represents the information on a livestream at a given time
 
 ####Class StreamStats
 Contains the statistics of a livestream
-* __init__(self, streamer, dump=None)
+* \_\_init\_\_(self, streamer, dump=None)
 * dumpable(self) returns a json-friendly list of tuples representing the self.snaps list
 * add(self, snap) adds a Snapshot at the end of the current list
 
 ####Class ChannelStats
-* __init__(self, streamer, dump=None)
+* \_\_init\_\_(self, streamer, dump=None)
 * dumpable(self) returns a json-friendly version of the self.streams list
 * add(self, stream) adds a StreamStats at the end of the list
 * getLast(self) returns the last StreamStats recorded
@@ -62,24 +62,24 @@ Wrapper for interaction with the terminal
 ####Class Logger
 Centralized log for the program
 * _write(self, message) Should not be used outside of the Logger
-* __init__(self, fileName, programName, terminal)
+* \_\_init\_\_(self, fileName, programName, terminal)
 * writeEvent(self, message) writes an event with the proper formatting in the log
 * writeError(self, message) writes an error with the proper formatting in the log
 
 ####Class StatsDump
 Wrapper for the file where the stats of a channel are stored
-* __init__(self, streamer)
+* \_\_init\_\_(self, streamer)
 * dump(self, dumpable) writes the dumpable ChannelStats to the streamer_viewers.json
 * load(self) Returns the dump for the recreation of ChannelStats
 
 ####Class TwitchStream
 Creates the statistics of a StreamStats
-* __init__(self, streamer)
+* \_\_init\_\_(self, streamer)
 * snap(self) returns a Snapshot of the current information of the livestream
 
 ####Class Tracker
 Tool tracking and recording the stats of a live channel
-* __init__(self, streamer, globalLog, terminal)
+* \_\_init\_\_(self, streamer, globalLog, terminal)
 * connect(self, retryDelay=10) tries to make a Snapshot of the livestream to return it. Returns None if failed after 10 attempts
 * track(self, interval=300) fires the tracking process of the livestream to get and log a Snapshot of it every <interval> seconds
 
