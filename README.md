@@ -1,12 +1,13 @@
 # Kuatools
 
 todo:
-* add authentification to classes dealing with the API (before August)
-* record the progression of followers during a stream
-* add exception handling for lack of connection (ConnectionError)
-* add an ending message to Screen when the program ends
+* settings file
+* possibility to launch from the commandline with the parameters
+* add authentification to classes dealing with the API (ready to implement)
+* record the progression of followers during a stream (mostly done)
 * format error messages to contain the type of exception
 * format time in messages with datetime attributes
+* look into logging modules
 * add unit tests
 
 ## General
@@ -25,15 +26,16 @@ This module uses the following modules:
 ## Current status
 This is work in progress.
 ### Known issues
-* a disconnection from the internet will cause the Tracker to crash.
+* a disconnection from the internet will cause the Tracker to wait a long time before displaying the connection error and retrying.
 
 ### Content
 ####Class Snapshot
 Represents the information on a livestream at a given time
-* __init__(self, viewers, game, time=datetime.now())
+* __init__(self, viewers, game, followers, time=datetime.now())
 * getTime(self) returns time as a datetime
 * getViewers(self) returns the viewer count at that time as an integer
 * getGame(self) returns the game played at that time as a string
+* getFollowers(self) returns the follower count at that time as an integer
 * dumpable(self) returns a json-friendly tuple of the Snapshot
 
 ####Class StreamStats
@@ -52,6 +54,7 @@ Contains the statistics of a livestream
 Wrapper for interaction with the terminal
 * write(self, message) writes the message in the terminal followed by an endline
 * __init__(self, programName)
+* end(self) writes a message indicating the program is closing
 * writeWarning(self, warning) writes a more visible message in the terminal for warnings
 * writeError(self, error) writes an error message in a more visible formatting
 * ask(self, prompt) returns the user's input after displaying the prompted message
