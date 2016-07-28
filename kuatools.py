@@ -7,10 +7,11 @@ from time import sleep
 
 class Snapshot:
     """Represents the information on a livestream at a given time"""
-    def __init__(self, viewers, game, time=dt.datetime.now()):
+    def __init__(self, viewers, game, followers, time=dt.datetime.now()):
         self.time = time
         self.viewers = viewers
         self.game = game
+        self.followers = followers
     def getTime(self):
         """returns time as a datetime"""
         return self.time.replace()
@@ -20,9 +21,12 @@ class Snapshot:
     def getGame(self):
         """returns the game played at that time as a string"""
         return self.game
+    def getFollowers(self):
+        """returns the follower count at that time as an integer"""
+        return self.followers
     def dumpable(self):
         """returns a json-friendly tuple of the Snapshot"""
-        return tuple((self.viewers, self.game, str(self.time)[:19]))
+        return tuple((self.viewers, self.game, self.followers ,str(self.time)[:19]))
 
 class StreamStats:
     """Contains the statistics of a livestream"""
@@ -31,7 +35,7 @@ class StreamStats:
         self.snaps = []
         if dump != None:
             for s in dump:
-                self.snaps.append(Snapshot(s[0], s[1], dt.datetime.strptime(s[2], "%Y-%m-%d %H:%M:%S")))
+                self.snaps.append(Snapshot(s[0], s[1], s[2], dt.datetime.strptime(s[3], "%Y-%m-%d %H:%M:%S")))
     def dumpable(self):
         """returns a json-friendly list of tuples representing the self.snaps list"""
         dumpableSnaps = []
@@ -141,9 +145,10 @@ class TwitchStream:
         self.streamer = streamer
     def snap(self):
         """Returns a Snapshot of the current informations of the livestream"""
-        apiAnswer = requests.get("https://api.twitch.tv/kraken/streams/" + self.streamer).json()['stream']
+        apiAnswerStream = requests.get("https://api.twitch.tv/kraken/streams/" + self.streamer).json()['stream']
+        apiAnswerChannel = requests.get("https://api.twitch.tv/kraken/channels/" + self.streamer).json()
         if apiAnswer != None:
-            return Snapshot(apiAnswer['viewers'], apiAnswer['game'])
+            return Snapshot(apiAnswerStream["viewers"], apiAnswerStream["game"], apiAnswerChannel["followers"])
         return None
 class Tracker:
     """Tool tracking and recording the stats of a live channel"""
